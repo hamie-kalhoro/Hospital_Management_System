@@ -46,4 +46,8 @@ public class Patient {
             "Failed to add Patient :(", null, JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
+    public void viewPatient() {
+        
+    }
 }
