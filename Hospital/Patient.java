@@ -75,5 +75,7 @@ public class Patient {
         }
     }
 
-    
+    public boolean getPatientbyId(int id) {
+        String query = "SELECT * FROM Patient WHERE id = ?";
+    }
 }
