@@ -36,4 +36,8 @@ public class Doctor {
             e.printStackTrace();
         }
     }
+
+    public boolean getDoctorbyId(int id) {
+        
+    }
 }
