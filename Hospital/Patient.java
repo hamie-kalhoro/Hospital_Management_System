@@ -3,7 +3,6 @@ package Hospital;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
@@ -93,5 +92,10 @@ public class Patient {
         }
 
         return false;
+    }
+
+    public void bookAppointment() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'bookAppointment'");
     }
 }
