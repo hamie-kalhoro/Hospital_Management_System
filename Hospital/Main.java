@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
@@ -72,7 +73,7 @@ public class Main {
         String appointmentDate = scanner.next();
 
         if(patient.getPatientbyId(patientId) && doctor.getDoctorbyId(doctorId)) {
-            if(checkDoctorAvaliable(patient, appointmentDate) {
+            if(checkDoctorAvaliable(patient, appointmentDate, connection)) {
                 String AppointmentQuery = "INSERT INTO appointment(patient_id, doctor_id, appointment_date) VALUES(?,?,?)";
                 try {
                     PreparedStatement preparedStatement = connection.prepareStatement(AppointmentQuery);
@@ -86,16 +87,38 @@ public class Main {
                         JOptionPane.showMessageDialog(null, "Appointment Booked!");
                     } else {
                         JOptionPane.showMessageDialog(null, "Error Occured!", null, JOptionPane.ERROR_MESSAGE);
-                    }
+                    }   
                 } catch(SQLException e) {
                     e.printStackTrace();
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Doctor is not Available", null, JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Doctor is not Available on this date!", null, JOptionPane.INFORMATION_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Either Doctor or Patient not Available!", null, JOptionPane.INFORMATION_MESSAGE);
         }
         
+    }
+
+
+    public boolean checkDoctorAvaliable(int doctorId, String appointmentDate, Connection connection) {
+        String query = "SELECT * FROM appointment WHERE doctor_id =? AND appointment_date =?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, doctorId);
+            preparedStatement.setString(2, appointmentDate);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                int count = resultSet.getInt(1);
+                if(count == 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
